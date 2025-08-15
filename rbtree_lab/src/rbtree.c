@@ -3,18 +3,37 @@
 #include <stdlib.h>
 
 rbtree *new_rbtree(void) {
-  rbtree *p = (rbtree *)calloc(1, sizeof(rbtree));
+  rbtree *p = calloc(1, sizeof(rbtree));
   // TODO: initialize struct if needed
+  node_t *nil = malloc(sizeof *nil);
+  nil->color = RBTREE_BLACK;
+  nil->left = nil;
+  nil->right = nil;
+  nil->parent = nil;
+  p->nil->color = RBTREE_BLACK;
+  p->root = p->nil; 
   return p;
+}
+
+static void free_subtree(rbtree *t, node_t *x) {
+  if (x == t->nil) return;
+    free_subtree(t, x->left);
+    free_subtree(t, x->right);
+    free(x);
 }
 
 void delete_rbtree(rbtree *t) {
   // TODO: reclaim the tree nodes's memory
+  if (!t) return;
+  free_subtree(t, t->root);
+  free(t->nil);
   free(t);
 }
 
 node_t *rbtree_insert(rbtree *t, const key_t key) {
   // TODO: implement insert
+  if (!t || !key) return;
+  if (t->root->key == NULL) t->root->key = key;
   return t->root;
 }
 
