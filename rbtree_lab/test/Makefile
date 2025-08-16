@@ -1,6 +1,8 @@
 .PHONY: test
 
 CFLAGS=-I ../src -Wall -g #-DSENTINEL
+CFLAGS   += -std=c11 -g -O0 -Wall -Wextra -DSENTINEL
+CPPFLAGS += -I../src
 
 test: test-rbtree
 	./test-rbtree
